@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: gerenciador-de-posts
-    env: docker
-    plan: free
-    rootDir: gerenciador_de_posts
-    dockerfilePath: Dockerfile
-    autoDeploy: true

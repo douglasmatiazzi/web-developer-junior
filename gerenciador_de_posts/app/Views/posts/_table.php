@@ -1,25 +1,11 @@
-<?= $this->extend('layouts/main') ?>
-<?= $this->section('content') ?>
-
-<h2>Bem Vindo(a), <?= session('name') ?>!</h2>
-<p>Você está logado(a) pelo e-mail: <strong><?= session('email') ?></strong>.</p>
-
-<hr>
-
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h4 class="mb-0">Posts</h4>
-  <div>
-    <a href="/posts/create" class="btn btn-primary">Novo Post</a>    
-  </div>
-</div>
-
 <?php if (count($posts) > 0): ?>
   <table class="table table-striped table-bordered align-middle">
     <thead class="table-light">
       <tr>
         <th>Nome</th>
         <th>Foto</th>
-        <th>Criado por</th> 
+        <th>Criado por</th>
+        <th>Data</th>
         <th>Ações</th>
       </tr>
     </thead>
@@ -35,6 +21,7 @@
             <?php endif; ?>
           </td>
           <td><?= esc($post->user->name ?? 'Desconhecido') ?></td>
+          <td><?= date('d/m/Y H:i', strtotime($post->created_at)) ?></td>
           <td>
             <a href="/posts/show/<?= $post->id ?>" class="btn btn-info btn-sm" target="_blank">Ver</a>
             <?php if ($post->user_id == session('user_id')): ?>
@@ -52,5 +39,3 @@
 <?php else: ?>
   <div class="alert alert-secondary">Nenhum post cadastrado ainda.</div>
 <?php endif; ?>
-
-<?= $this->endSection() ?>

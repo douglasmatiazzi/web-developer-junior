@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/main') ?>
+<?= $this->extend('layouts/main') ?> 
 <?= $this->section('content') ?>
 
 <div class="container mt-5" style="max-width: 800px;">
@@ -11,6 +11,10 @@
     <div class="mb-4">
         <?= $post->content ?> <!-- HTML renderizado diretamente -->
     </div>
+
+    <?php if ($post->user_id == session('user_id')): ?>
+        <a href="/posts/edit/<?= $post->id ?>" class="btn btn-warning">Editar</a>
+    <?php endif; ?>
 </div>
 
 <?= $this->endSection() ?>

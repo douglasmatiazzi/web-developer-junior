@@ -18,10 +18,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/posts">Posts</a>
                 </li>
-                <?php if (session()->has('user_id')): ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/dashboard">Gerenciador de Posts</a>
-                    </li>
+                <?php if (session()->has('user_id')): ?>                    
                     <li class="nav-item">
                         <a class="nav-link text-danger" href="/logout">Logout</a>
                     </li>

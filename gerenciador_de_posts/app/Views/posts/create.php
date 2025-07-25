@@ -30,7 +30,7 @@
         </div>
 
         <div class="d-flex justify-content-between">
-            <a href="/dashboard" class="btn btn-secondary">Cancelar</a>
+            <a href="/" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-success">Salvar</button>
         </div>
     </form>

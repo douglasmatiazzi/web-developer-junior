@@ -63,24 +63,11 @@ class UserController extends Controller
                 'logged_in' => true,
             ]);
 
-            return redirect()->to('/dashboard');
+            return redirect()->to('/');
         }
 
         return redirect()->back()->with('error', 'E-mail ou senha inválidos.');
     }
-
-    public function dashboard()
-    {
-        if (!session()->has('user_id')) {
-            return redirect()->to('/login');
-        }
-
-        // Carrega os posts com os dados do usuário relacionado
-        $posts = Post::with('user')->get();
-
-        return view('auth/dashboard', ['posts' => $posts]);
-    }
-
 
     public function logout()
     {

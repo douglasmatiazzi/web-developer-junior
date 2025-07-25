@@ -9,11 +9,36 @@ class PostController extends Controller
 {
     public function index()
     {
-        // Eloquent: traz todos os posts
-        $posts = Post::all();
+        $order = $this->request->getGet('order') === 'asc' ? 'asc' : 'desc';
+        $creatorId = $this->request->getGet('creator');
+        $q = $this->request->getGet('q'); // <-- pega termo de busca
 
-        return view('posts/index', ['posts' => $posts]);
+        $query = \App\Models\Post::with('user');
+
+        if ($creatorId) {
+            $query = $query->where('user_id', $creatorId);
+        }
+        if ($q) {            
+            $query = $query->where(function($subQuery) use ($q) {
+                $subQuery->where('title', 'like', "%$q%")
+                        ->orWhere('content', 'like', "%$q%");
+            });
+        }
+
+        $posts = $query->orderBy('created_at', $order)->get();
+
+        $users = \App\Models\User::all();
+
+        return view('posts/index', [
+            'posts'   => $posts,
+            'order'   => $order,
+            'creator' => $creatorId,
+            'users'   => $users,
+            'q'       => $q 
+        ]);
     }
+
+
 
     public function create()
     {
@@ -49,7 +74,7 @@ class PostController extends Controller
 
         Post::create($data); // Eloquent
 
-        return redirect()->to('/dashboard');
+        return redirect()->to('/');
     }
 
     public function show($id)
@@ -92,7 +117,7 @@ class PostController extends Controller
 
         $post->save(); // Eloquent
 
-        return redirect()->to('/dashboard');
+        return redirect()->to('/');
     }
 
     public function delete($id)
@@ -104,6 +129,26 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->delete(); // Eloquent
 
-        return redirect()->to('/dashboard');
+        return redirect()->to('/');
     }
+
+public function searchAjax()
+{
+    $order = $this->request->getGet('order') === 'asc' ? 'asc' : 'desc';
+    $creatorId = $this->request->getGet('creator');
+    $q = $this->request->getGet('q');
+
+    $query = \App\Models\Post::with('user');
+    if ($creatorId) $query = $query->where('user_id', $creatorId);
+    if ($q) {
+        $query = $query->where(function($sub) use ($q) {
+            $sub->where('title', 'like', "%$q%")
+                ->orWhere('content', 'like', "%$q%");
+        });
+    }
+    $posts = $query->orderBy('created_at', $order)->get();
+
+    // Só renderiza a tabela, não a página inteira
+    return view('posts/_table', ['posts' => $posts]);
+}
 }
