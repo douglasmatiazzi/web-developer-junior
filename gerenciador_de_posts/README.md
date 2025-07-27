@@ -7,7 +7,7 @@ Atividade 1 – Projeto para avaliação técnica da vaga de Desenvolvedor Web J
 ## 📍 Deploy Online
 
 Acesse para testar:  
-🔗 [https://cf6e04737df2.ngrok-free.app/](https://cf6e04737df2.ngrok-free.app/)
+🔗 [https://2e063a559d04.ngrok-free.app/](https://2e063a559d04.ngrok-free.app/)
 
 ---
 
@@ -42,11 +42,7 @@ Sistema monolítico construído em CodeIgniter 4 com Eloquent ORM, que permite a
     composer install
     ```
 
-3. **Configure o ambiente:**
-    - Copie o arquivo `.env.example` para `.env`:
-      ```sh
-      cp .env.example .env
-      ```
+3. **Configure o ambiente:**    
     - Edite o `.env` e ajuste as variáveis de conexão com o MySQL:
       ```
       database.default.hostname = localhost
@@ -55,7 +51,7 @@ Sistema monolítico construído em CodeIgniter 4 com Eloquent ORM, que permite a
       database.default.password = <sua_senha>
       ```
 
-4. **Crie o banco de dados vazio no MySQL** (mesmo nome do `.env`).
+4. **Crie o banco de dados vazio no MySQL** (mesmo nome do database.default.database do `.env`).
 
 5. **Execute as migrations para criar as tabelas:**
     ```sh
@@ -87,7 +83,6 @@ A visualização dos posts é pública.**
 - Apenas o autor pode editar/excluir seus próprios posts
 - CRUD completo de posts (título, imagem, descrição em HTML)
 - Layout responsivo com Bootstrap 5 e jQuery
-- Código limpo, seguro, sem arquivos/testes desnecessários
 - Models utilizando Eloquent ORM
 
 ---
