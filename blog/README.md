@@ -28,12 +28,8 @@ O sistema oferece visualização pública dos posts com busca em tempo real, fil
 
 ## 🚀 Como rodar localmente
 
-1. **Certifique-se de que o backend está rodando:**
-    ```sh
-    cd web-developer-junior/gerenciador_de_posts
-    php spark serve
-    ```
-    > O backend estará disponível em [http://localhost:8080](http://localhost:8080)
+1. **Certifique-se de que o Gerenciador de Posts está rodando:**
+    Instruções em gerenciador-de-posts/README.md.
 
 2. **Abra outro terminal e rode o blog público:**
     ```sh
