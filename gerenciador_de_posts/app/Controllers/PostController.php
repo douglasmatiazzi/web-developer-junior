@@ -89,7 +89,12 @@ class PostController extends Controller
         if (!session()->has('user_id')) {
             return redirect()->to('/login');
         }
+
         $post = Post::findOrFail($id);
+        
+        if ($post->user_id !== session()->get('user_id')) {
+            return redirect()->to('/posts')->with('error', 'Você não tem permissão para editar este post.');
+        }
 
         return view('posts/edit', ['post' => $post]);
     }
@@ -104,9 +109,12 @@ class PostController extends Controller
 
         $post = Post::findOrFail($id);
 
+        if ($post->user_id !== session()->get('user_id')) {
+            return redirect()->to('/posts')->with('error', 'Você não tem permissão para atualizar este post.');
+        }
+
         $post->title   = $this->request->getPost('title');
         $post->content = $this->request->getPost('content');
-        $post->user_id = session()->get('user_id');
 
         $file = $this->request->getFile('image');
         if ($file && $file->isValid() && !$file->hasMoved()) {
@@ -115,7 +123,7 @@ class PostController extends Controller
             $post->image = $imageName;
         }
 
-        $post->save(); // Eloquent
+        $post->save();
 
         return redirect()->to('/');
     }
@@ -127,28 +135,33 @@ class PostController extends Controller
         }
 
         $post = Post::findOrFail($id);
-        $post->delete(); // Eloquent
+
+        if ($post->user_id !== session()->get('user_id')) {
+            return redirect()->to('/posts')->with('error', 'Você não tem permissão para excluir este post.');
+        }
+
+        $post->delete();
 
         return redirect()->to('/');
     }
 
-public function searchAjax()
-{
-    $order = $this->request->getGet('order') === 'asc' ? 'asc' : 'desc';
-    $creatorId = $this->request->getGet('creator');
-    $q = $this->request->getGet('q');
+    public function searchAjax()
+    {
+        $order = $this->request->getGet('order') === 'asc' ? 'asc' : 'desc';
+        $creatorId = $this->request->getGet('creator');
+        $q = $this->request->getGet('q');
 
-    $query = \App\Models\Post::with('user');
-    if ($creatorId) $query = $query->where('user_id', $creatorId);
-    if ($q) {
-        $query = $query->where(function($sub) use ($q) {
-            $sub->where('title', 'like', "%$q%")
-                ->orWhere('content', 'like', "%$q%");
-        });
+        $query = \App\Models\Post::with('user');
+        if ($creatorId) $query = $query->where('user_id', $creatorId);
+        if ($q) {
+            $query = $query->where(function($sub) use ($q) {
+                $sub->where('title', 'like', "%$q%")
+                    ->orWhere('content', 'like', "%$q%");
+            });
+        }
+        $posts = $query->orderBy('created_at', $order)->get();
+
+        // Só renderiza a tabela, não a página inteira
+        return view('posts/_table', ['posts' => $posts]);
     }
-    $posts = $query->orderBy('created_at', $order)->get();
-
-    // Só renderiza a tabela, não a página inteira
-    return view('posts/_table', ['posts' => $posts]);
-}
 }

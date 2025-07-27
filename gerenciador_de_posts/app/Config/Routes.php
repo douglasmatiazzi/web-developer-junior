@@ -5,6 +5,8 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+
+// ROTAS USUÁRIO
 $routes->get('/', function () {
     if (session()->has('user_id')) {
         return redirect()->to('/posts');
@@ -18,7 +20,7 @@ $routes->get('/login', 'UserController::loginForm');
 $routes->post('/login', 'UserController::login');
 $routes->get('/logout', 'UserController::logout');
 
-// NOVAS ROTAS PARA POSTS
+// ROTAS POSTS
 $routes->group('posts', function ($routes) {
     $routes->get('/', 'PostController::index');
     $routes->get('create', 'PostController::create');
@@ -31,3 +33,14 @@ $routes->group('posts', function ($routes) {
 
 // ROTA AJAX DINÂMICA
 $routes->get('posts/search/ajax', 'PostController::searchAjax');
+
+// ROTA API COM CORS
+$routes->group('api', [
+    'namespace' => 'App\Controllers\Api',
+], function ($routes) {
+    $routes->get('posts', 'PostController::index');
+    $routes->get('posts/(:num)', 'PostController::show/$1');
+    $routes->get('users', 'UserController::index');
+});
+
+
