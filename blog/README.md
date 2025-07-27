@@ -6,7 +6,7 @@ Atividade 2 – Projeto para avaliação técnica da vaga de Desenvolvedor Web J
 
 ## 📍 Deploy Online
 
-Acesse para testar:  
+Acesse para testar (Como a plataforma é grátis, deve-se clicar em "Visit Site" na tela inicial do ngrok, então o site é redirecionado ao projeto):  
 🔗 [https://905737b2728f.ngrok-free.app/blog_publico](https://905737b2728f.ngrok-free.app/blog_publico)
 
 ---
