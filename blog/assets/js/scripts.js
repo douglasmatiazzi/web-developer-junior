@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  const API_URL = 'https://da31b4d0c6cb.ngrok-free.app/api/posts';
-  const BASE_UPLOADS_URL = 'https://da31b4d0c6cb.ngrok-free.app/uploads/';
+  const API_URL = 'http://localhost:8080/api/posts';
+  const BASE_UPLOADS_URL = 'http://localhost:8080/uploads/';
 
   if ($('#postsContainer').length) {
     const $container = $('#postsContainer');
